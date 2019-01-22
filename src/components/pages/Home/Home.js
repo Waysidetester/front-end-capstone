@@ -9,9 +9,16 @@ import {
   InputGroupText,
   Button,
 } from 'reactstrap';
+import iexFactory from '../../../helpers/Api/iexFactory';
 import './Home.scss';
 
 class Home extends React.Component {
+  searchTicker = (e) => {
+    e.preventDefault();
+    const ticker = document.getElementById('home-ticker').value;
+    iexFactory.bookRequest(ticker);
+  }
+
   render() {
     return (
       <Card body className="text-center mt-5">
@@ -20,12 +27,16 @@ class Home extends React.Component {
       </CardTitle>
       <CardText>Search for a stock</CardText>
       <InputGroup>
-        <Input />
+        <Input id='home-ticker'/>
         <InputGroupAddon addonType="append">
           <InputGroupText>Enter Ticker</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
-      <Button className='mt-1' id='search-submit'>Search</Button>
+      <Button
+      className='mt-1'
+      id='search-submit'
+      onClick={this.searchTicker}
+      >Search</Button>
     </Card>
     );
   }
