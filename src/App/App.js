@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Home from '../components/pages/Home/Home';
 import Auth from '../components/pages/Auth/Auth';
+import StockDetail from '../components/pages/StockDetail/StockDetail';
 import fbMethods from '../helpers/firebase/fbMethods';
 import MyNav from '../components/MyNav/MyNav';
 import 'firebase/auth';
@@ -66,8 +67,8 @@ class App extends React.Component {
                 <Switch>
                   <PublicRoute path='/auth' component={Auth} authed={this.state.authed}/>
                   <PrivateRoute path='/home' component={Home} authed={this.state.authed} />
-{/* <PrivateRoute path='/:ticker' exact component={StockDetail} authed={this.state.authed} />
-<PrivateRoute path='/saved' exact component={Saved} authed={this.state.authed} />
+                  <PrivateRoute path='/stock/:ticker' exact component={StockDetail} authed={this.state.authed} />
+{/* <PrivateRoute path='/saved' exact component={Saved} authed={this.state.authed} />
 <PrivateRoute path='/saved/:fbKey' exact component={SavedDetail} authed={this.state.authed} />
 <PrivateRoute path='/watching' exact component={Watching} authed={this.state.authed} />
 <PrivateRoute path='/watching/:fbKey' exact component={WatchingDetail} authed={this.state.authed} />
