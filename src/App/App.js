@@ -1,11 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 import firebase from 'firebase/app';
-import 'firebase/auth';
+import {
+  Route,
+  BrowserRouter,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
+import Home from '../components/pages/Home/Home';
+import Auth from '../components/pages/Auth/Auth';
 import fbMethods from '../helpers/firebase/fbMethods';
 import MyNav from '../components/MyNav/MyNav';
+import 'firebase/auth';
 import './App.scss';
 
-class App extends Component {
+const PublicRoute = ({ component: Component, authed, ...rest }) => {
+  const routeChecker = props => (
+    !authed ? (<Component { ...props }/>) : (<Redirect to={{ pathname: '/home', state: { from: props.location } }}/>)
+  );
+  return <Route {... rest} render={props => routeChecker(props)}/>;
+};
+
+const PrivateRoute = ({ component: Component, authed, ...rest }) => {
+  const routeChecker = props => (
+    authed ? (<Component { ...props }/>) : (<Redirect to={{ pathname: '/auth', state: { from: props.location } }}/>)
+  );
+  return <Route {... rest} render={props => routeChecker(props)}/>;
+};
+
+class App extends React.Component {
   state = {
     authed: false,
     pendingUser: true,
@@ -36,8 +58,26 @@ class App extends Component {
 
     return (
       <div className="App">
-        <MyNav authed={this.state.authed}/>
-        <p>hello</p>
+      <BrowserRouter>
+          <React.Fragment>
+            <MyNav authed={this.state.authed}/>
+            <div className='container'>
+              <div className='row'>
+                <Switch>
+                  <PublicRoute path='/auth' component={Auth} authed={this.state.authed}/>
+                  <PrivateRoute path='/home' component={Home} authed={this.state.authed} />
+{/* <PrivateRoute path='/:ticker' exact component={StockDetail} authed={this.state.authed} />
+<PrivateRoute path='/saved' exact component={Saved} authed={this.state.authed} />
+<PrivateRoute path='/saved/:fbKey' exact component={SavedDetail} authed={this.state.authed} />
+<PrivateRoute path='/watching' exact component={Watching} authed={this.state.authed} />
+<PrivateRoute path='/watching/:fbKey' exact component={WatchingDetail} authed={this.state.authed} />
+<PrivateRoute path='/removed' exact component={Removed} authed={this.state.authed} />
+<PrivateRoute path='/removed/:fbKey' exactcomponent={RemovedDetail}authed={this.state.authed} /> */}
+                </Switch>
+              </div>
+            </div>
+          </React.Fragment>
+        </BrowserRouter>
       </div>
     );
   }
