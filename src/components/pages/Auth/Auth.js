@@ -11,7 +11,6 @@ import './Auth.scss';
 class Auth extends React.Component {
   render() {
     return (
-      <div>
         <Card body className="text-center">
           <CardTitle>
             <h1>Welcome to Renenutet</h1>
@@ -19,7 +18,6 @@ class Auth extends React.Component {
           <CardText>Join the fun!</CardText>
           <Button onClick={fbMethods.googleLogin}>Log in with Google</Button>
         </Card>
-      </div>
     );
   }
 }
