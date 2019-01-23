@@ -18,7 +18,7 @@ class Home extends React.Component {
     const ticker = document.getElementById('home-ticker').value;
     iexFactory.symbolRequest(ticker)
       .then((symbol) => {
-        this.props.history.push(`/stock/${symbol}`)
+        this.props.history.push(`/stock/${symbol}`);
       })
       .catch((err) => {
         console.error('not a symbol', err);
