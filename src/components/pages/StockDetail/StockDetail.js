@@ -66,10 +66,7 @@ class StockDetail extends React.Component {
       return stock;
     };
 
-    const saveStock = () => {
-      fbMethods.atvCollectionCreate(savedStockObj());
-      console.log('saved stock to firebase');
-    };
+    const saveStock = () => fbMethods.atvCollectionCreate(savedStockObj());
 
     // returns if a valid ticker is entered
     if (this.state.stockQuote.symbol) {
@@ -86,7 +83,12 @@ class StockDetail extends React.Component {
           <p>52 Week High: {numToDollars(this.state.stockQuote.week52High)}</p>
           <p>52 Week Low: {numToDollars(this.state.stockQuote.week52Low)}</p>
           <p>Calculation Price: {this.state.stockQuote.calculationPrice}</p>
-          <SaveModal buttonLabel='Save Stock?' saveStock={saveStock} quantityToSave={this.setQuanitiy}/>
+          <SaveModal
+          buttonLabel='Save Stock?'
+          saveStock={saveStock}
+          setQuanitiy={this.setQuanitiy}
+          companyName={this.state.stockQuote.companyName}
+          />
         </div>
       );
     }

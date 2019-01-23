@@ -6,13 +6,18 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
 } from 'reactstrap';
 import './SaveModal.scss';
 
 class SaveModal extends React.Component {
   static propTypes = {
     saveStock: PropTypes.func,
-    quantityToSave: PropTypes.func,
+    setQuanitiy: PropTypes.func,
+    companyName: PropTypes.string,
   }
 
   constructor(props) {
@@ -20,35 +25,43 @@ class SaveModal extends React.Component {
     this.state = {
       modal: false,
       saved: false,
+      quantity: 0,
     };
 
     this.toggle = this.toggle.bind(this);
   }
 
+  // Indicates to user that save was complete
   indicateSaved() {
     this.setState({
       saved: true,
     });
   }
 
+  // toggles Modal
   toggle() {
     this.setState({
       modal: !this.state.modal,
     });
   }
 
+  updateQuantity() {
+    const currentQuant = document.getElementById('quantityToSave').value;
+    this.props.setQuanitiy(currentQuant);
+  }
+
   render() {
     if (this.state.saved) {
       return (
         <div>
-          <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+          <Button color="secondary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+            <ModalHeader toggle={this.toggle}>{this.props.companyName}</ModalHeader>
             <ModalBody>
               Saved!
             </ModalBody>
             <ModalFooter>
-              <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+              <Button color="secondary" onClick={this.toggle}>Close</Button>
             </ModalFooter>
           </Modal>
         </div>
@@ -56,16 +69,25 @@ class SaveModal extends React.Component {
     }
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+        <Button color="secondary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{this.props.companyName}</ModalHeader>
           <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            Add
+            <InputGroup>
+              <Input
+              id='quantityToSave'
+              />
+              <InputGroupAddon addonType="append">
+                <InputGroupText>Shares</InputGroupText>
+              </InputGroupAddon>
+            </InputGroup>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => {
-              this.indicateSaved();
+              this.updateQuantity();
               this.props.saveStock();
+              this.indicateSaved();
             }
               }>Save Stock</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
