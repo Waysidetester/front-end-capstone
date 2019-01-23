@@ -2,6 +2,7 @@
   "active-collection" : {
     "^firebase_key" : {
       "isRemoved" : "default false unless removed",
+      "quantity": "number",
       "ticker": "sample ticker",
       "originTimestamp" : "Date.now() from 'saved' click",
       "removeTimestamp": "Date.now() on 'removed' click ... undefined if 'is-removed' false",

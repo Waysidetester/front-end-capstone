@@ -7,6 +7,7 @@ import SaveModal from '../../Modal/SaveModal';
 class StockDetail extends React.Component {
   state = {
     stockQuote: {},
+    quantityToSave: 0,
   }
 
   // Gets symbol from URL
@@ -23,6 +24,12 @@ class StockDetail extends React.Component {
       .catch((err) => {
         console.error('error in StockDetail.js', err);
       });
+  }
+
+  setQuanitiy = (newQuantity) => {
+    this.setState({
+      quantityToSave: newQuantity,
+    });
   }
 
   componentDidMount() {
@@ -49,6 +56,7 @@ class StockDetail extends React.Component {
       const stock = {
         isRemoved: false,
         ticker: this.state.stockQuote.symbol,
+        quantity: this.state.quantityToSave,
         originTimestamp: Date.now(),
         removeTimestamp: undefined,
         originPrice: this.state.stockQuote.latestPrice,
@@ -78,8 +86,7 @@ class StockDetail extends React.Component {
           <p>52 Week High: {numToDollars(this.state.stockQuote.week52High)}</p>
           <p>52 Week Low: {numToDollars(this.state.stockQuote.week52Low)}</p>
           <p>Calculation Price: {this.state.stockQuote.calculationPrice}</p>
-          <button className='btn btn-secondary' onClick={saveStock}>Save Stock</button>
-          <SaveModal buttonLabel='button Label' saveStock={saveStock}/>
+          <SaveModal buttonLabel='Save Stock?' saveStock={saveStock} quantityToSave={this.setQuanitiy}/>
         </div>
       );
     }
