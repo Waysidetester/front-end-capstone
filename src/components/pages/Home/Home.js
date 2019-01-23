@@ -16,7 +16,13 @@ class Home extends React.Component {
   searchTicker = (e) => {
     e.preventDefault();
     const ticker = document.getElementById('home-ticker').value;
-    iexFactory.bookRequest(ticker);
+    iexFactory.symbolRequest(ticker)
+      .then((symbol) => {
+        this.props.history.push(`/stock/${symbol}`);
+      })
+      .catch((err) => {
+        console.error('not a symbol', err);
+      });
   }
 
   render() {

@@ -19,6 +19,7 @@ const initFirebase = () => {
   }
 };
 
+
 export default {
   googleLogin,
   logout,
