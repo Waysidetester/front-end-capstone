@@ -1,0 +1,20 @@
+{
+  "active-collection" : {
+    "^firebase_key" : {
+      "isRemoved" : "default false unless removed",
+      "quantity": "number",
+      "ticker": "sample ticker",
+      "originTimestamp" : "Date.now() from 'saved' click",
+      "removeTimestamp": "Date.now() on 'removed' click ... undefined if 'is-removed' false",
+      "originPrice" : "price from 'saved' click",
+      "removePrice" : "price at 'removed'click ... undefined if 'is-removed' false",
+      "uid": "firebase uid for validation"
+    }
+  },
+  "watching" : {
+    "^firebase_key" : {
+      "ticker" : "sample ticker",
+      "uid" : "firebase uid for validation"
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import React from 'react';
 import iexFactory from '../../../helpers/Api/iexFactory';
+import fbMethods from '../../../helpers/firebase/fbMethods';
 import './StockDetail.scss';
+import SaveModal from '../../Modal/SaveModal';
 
 class StockDetail extends React.Component {
   state = {
@@ -24,9 +26,11 @@ class StockDetail extends React.Component {
   }
 
   componentDidMount() {
+    // API call to set state to response
     this.quoteGetter();
   }
 
+  // redirect to homepage when invalid ticker entered in URL
   homeRedirect = (e) => {
     e.preventDefault();
     this.props.history.push('/home');
@@ -41,6 +45,19 @@ class StockDetail extends React.Component {
       const percentage = percentNum * 100;
       return `${percentage.toFixed(2)}%`;
     };
+
+    // builds stock object for axios call
+    const savedStockObj = {
+      isRemoved: false,
+      ticker: this.state.stockQuote.symbol,
+      originTimestamp: Date.now(),
+      removeTimestamp: undefined,
+      originPrice: this.state.stockQuote.latestPrice,
+      removePrice: undefined,
+      uid: fbMethods.currentUID(),
+    };
+
+    const saveStock = () => fbMethods.atvCollectionCreate(savedStockObj);
 
     // returns if a valid ticker is entered
     if (this.state.stockQuote.symbol) {
@@ -57,6 +74,12 @@ class StockDetail extends React.Component {
           <p>52 Week High: {numToDollars(this.state.stockQuote.week52High)}</p>
           <p>52 Week Low: {numToDollars(this.state.stockQuote.week52Low)}</p>
           <p>Calculation Price: {this.state.stockQuote.calculationPrice}</p>
+          <SaveModal
+          buttonLabel='Save Stock?'
+          savedStockObj={savedStockObj}
+          saveStock={saveStock}
+          companyName={this.state.stockQuote.companyName}
+          />
         </div>
       );
     }
