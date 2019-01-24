@@ -21,6 +21,9 @@ class MyNav extends React.Component {
           <Navbar color="dark" dark expand="md">
             <NavbarBrand href="/">Renenutet</NavbarBrand>
               <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href='/portfolio'>Portfolio</NavLink>
+              </NavItem>
                 <NavItem onClick={fbMethods.logout}>
                   <NavLink >Sign Out</NavLink>
                 </NavItem>

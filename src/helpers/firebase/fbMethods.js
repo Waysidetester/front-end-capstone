@@ -24,6 +24,24 @@ const initFirebase = () => {
 
 const atvCollectionCreate = stockObject => axios.post(`${fBaseUrl}/active-collection.json`, stockObject);
 
+const readAtvCollection = () => new Promise((resolve, reject) => {
+  // filtering returned stocks in database call to match user
+  axios.get(`${fBaseUrl}/active-collection.json?orderBy="uid"&equalTo="${firebase.auth().currentUser.uid}"`)
+    .then((results) => {
+      const items = [];
+      if (results.data !== null) {
+        Object.keys(results.data).forEach((key) => {
+          results.data[key].id = key;
+          items.push(results.data[key]);
+        });
+        resolve(items);
+      }
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
+
 const currentUID = () => firebase.auth().currentUser.uid;
 
 export default {
@@ -32,4 +50,5 @@ export default {
   initFirebase,
   currentUID,
   atvCollectionCreate,
+  readAtvCollection,
 };
