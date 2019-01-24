@@ -7,7 +7,6 @@ import SaveModal from '../../Modal/SaveModal';
 class StockDetail extends React.Component {
   state = {
     stockQuote: {},
-    quantityToSave: 0,
   }
 
   // Gets symbol from URL
@@ -26,16 +25,12 @@ class StockDetail extends React.Component {
       });
   }
 
-  setQuanitiy = (newQuantity) => {
-    this.setState({
-      quantityToSave: newQuantity,
-    });
-  }
-
   componentDidMount() {
+    // API call to set state to response
     this.quoteGetter();
   }
 
+  // redirect to homepage when invalid ticker entered in URL
   homeRedirect = (e) => {
     e.preventDefault();
     this.props.history.push('/home');
@@ -52,21 +47,17 @@ class StockDetail extends React.Component {
     };
 
     // builds stock object for axios call
-    const savedStockObj = () => {
-      const stock = {
-        isRemoved: false,
-        ticker: this.state.stockQuote.symbol,
-        quantity: this.state.quantityToSave,
-        originTimestamp: Date.now(),
-        removeTimestamp: undefined,
-        originPrice: this.state.stockQuote.latestPrice,
-        removePrice: undefined,
-        uid: fbMethods.currentUID(),
-      };
-      return stock;
+    const savedStockObj = {
+      isRemoved: false,
+      ticker: this.state.stockQuote.symbol,
+      originTimestamp: Date.now(),
+      removeTimestamp: undefined,
+      originPrice: this.state.stockQuote.latestPrice,
+      removePrice: undefined,
+      uid: fbMethods.currentUID(),
     };
 
-    const saveStock = () => fbMethods.atvCollectionCreate(savedStockObj());
+    const saveStock = () => fbMethods.atvCollectionCreate(savedStockObj);
 
     // returns if a valid ticker is entered
     if (this.state.stockQuote.symbol) {
@@ -85,8 +76,8 @@ class StockDetail extends React.Component {
           <p>Calculation Price: {this.state.stockQuote.calculationPrice}</p>
           <SaveModal
           buttonLabel='Save Stock?'
+          savedStockObj={savedStockObj}
           saveStock={saveStock}
-          setQuanitiy={this.setQuanitiy}
           companyName={this.state.stockQuote.companyName}
           />
         </div>

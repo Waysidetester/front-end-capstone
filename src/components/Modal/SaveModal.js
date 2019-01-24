@@ -16,7 +16,13 @@ import './SaveModal.scss';
 class SaveModal extends React.Component {
   static propTypes = {
     saveStock: PropTypes.func,
-    setQuanitiy: PropTypes.func,
+    savedStockObj: PropTypes.shape({
+      isRemoved: PropTypes.bool,
+      ticker: PropTypes.string,
+      originTimestamp: PropTypes.number,
+      originPrice: PropTypes.number,
+      uid: PropTypes.string,
+    }),
     companyName: PropTypes.string,
   }
 
@@ -26,6 +32,7 @@ class SaveModal extends React.Component {
       modal: false,
       saved: false,
       quantity: 0,
+      validInput: true,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -38,6 +45,12 @@ class SaveModal extends React.Component {
     });
   }
 
+  resetSaved() {
+    this.setState({
+      saved: false,
+    });
+  }
+
   // toggles Modal
   toggle() {
     this.setState({
@@ -47,10 +60,24 @@ class SaveModal extends React.Component {
 
   updateQuantity() {
     const currentQuant = document.getElementById('quantityToSave').value;
-    this.props.setQuanitiy(currentQuant);
+    this.props.savedStockObj.quantity = (currentQuant * 1);
   }
 
   render() {
+    const quantValidator = () => {
+      if (!isNaN(this.props.savedStockObj.quantity)) {
+        this.setState({
+          validInput: true,
+        });
+        this.props.saveStock();
+        this.indicateSaved();
+      } else {
+        this.setState({
+          validInput: false,
+        });
+      }
+    };
+
     if (this.state.saved) {
       return (
         <div>
@@ -61,7 +88,10 @@ class SaveModal extends React.Component {
               Saved!
             </ModalBody>
             <ModalFooter>
-              <Button color="secondary" onClick={this.toggle}>Close</Button>
+              <Button color="secondary" onClick={() => {
+                this.toggle();
+                this.resetSaved();
+              }}>Close</Button>
             </ModalFooter>
           </Modal>
         </div>
@@ -76,7 +106,9 @@ class SaveModal extends React.Component {
             Add
             <InputGroup>
               <Input
+              className={this.state.validInput ? '' : 'is-invalid'}
               id='quantityToSave'
+              autoComplete="off"
               />
               <InputGroupAddon addonType="append">
                 <InputGroupText>Shares</InputGroupText>
@@ -86,8 +118,7 @@ class SaveModal extends React.Component {
           <ModalFooter>
             <Button color="primary" onClick={() => {
               this.updateQuantity();
-              this.props.saveStock();
-              this.indicateSaved();
+              quantValidator();
             }
               }>Save Stock</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
