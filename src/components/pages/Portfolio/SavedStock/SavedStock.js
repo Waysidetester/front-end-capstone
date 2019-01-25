@@ -73,7 +73,7 @@ class SavedStock extends React.Component {
     }
     return (
       <div>error retrieving stock data</div>
-    )
+    );
   }
 }
 
