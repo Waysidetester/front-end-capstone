@@ -24,6 +24,7 @@ const initFirebase = () => {
 
 const atvCollectionCreate = stockObject => axios.post(`${fBaseUrl}/active-collection.json`, stockObject);
 
+/* reads active collection and pushes objects that aren't true to be returned */
 const readAtvCollection = () => new Promise((resolve, reject) => {
   // filtering returned stocks in database call to match user
   axios.get(`${fBaseUrl}/active-collection.json?orderBy="uid"&equalTo="${firebase.auth().currentUser.uid}"`)
@@ -31,10 +32,14 @@ const readAtvCollection = () => new Promise((resolve, reject) => {
       const items = [];
       if (results.data !== null) {
         Object.keys(results.data).forEach((key) => {
-          // eslint-disable-next-line
-          results.data[key].id = key;
-          items.push(results.data[key]);
+          if (!results.data[key].isRemoved) {
+            // eslint-disable-next-line
+            results.data[key].id = key;
+            items.push(results.data[key]);
+          }
         });
+        // sorts by date added
+        items.sort((a, b) => parseFloat(b.originTimestamp) - parseFloat(a.originTimestamp));
         resolve(items);
       }
     })
@@ -62,6 +67,31 @@ const readSingleSaved = fbKey => new Promise((resolve, reject) => {
     });
 });
 
+/* Reads active collection and pushes removed objects to be returned */
+const readRemovedFromActive = () => new Promise((resolve, reject) => {
+  // filtering returned stocks in database call to match user
+  axios.get(`${fBaseUrl}/active-collection.json?orderBy="uid"&equalTo="${firebase.auth().currentUser.uid}"`)
+    .then((results) => {
+      const items = [];
+      if (results.data !== null) {
+        Object.keys(results.data).forEach((key) => {
+          if (results.data[key].isRemoved) {
+            // eslint-disable-next-line
+            results.data[key].id = key;
+            items.push(results.data[key]);
+          }
+        });
+        // sorts by date removed
+        items.sort((a, b) => parseFloat(b.removeTimestamp) - parseFloat(a.removeTimestamp));
+        resolve(items);
+      }
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
+
+
 const currentUID = () => firebase.auth().currentUser.uid;
 
 export default {
@@ -72,4 +102,5 @@ export default {
   atvCollectionCreate,
   readAtvCollection,
   readSingleSaved,
+  readRemovedFromActive,
 };
