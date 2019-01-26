@@ -33,7 +33,7 @@ class Home extends React.Component {
       </CardTitle>
       <CardText>Search for a stock</CardText>
       <InputGroup>
-        <Input id='home-ticker'/>
+        <Input id='home-ticker' autoComplete='off'/>
         <InputGroupAddon addonType="append">
           <InputGroupText>Enter Ticker</InputGroupText>
         </InputGroupAddon>
