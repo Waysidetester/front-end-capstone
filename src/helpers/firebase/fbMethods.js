@@ -31,6 +31,26 @@ const readAtvCollection = () => new Promise((resolve, reject) => {
       const items = [];
       if (results.data !== null) {
         Object.keys(results.data).forEach((key) => {
+          // eslint-disable-next-line
+          results.data[key].id = key;
+          items.push(results.data[key]);
+        });
+        resolve(items);
+      }
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
+
+const readSingleSaved = fbKey => new Promise((resolve, reject) => {
+  // filtering returned stocks in database call to match user
+  axios.get(`${fBaseUrl}/active-collection.json?orderBy="$key"&equalTo="${fbKey}"`)
+    .then((results) => {
+      const items = [];
+      if (results.data !== null) {
+        Object.keys(results.data).forEach((key) => {
+          // eslint-disable-next-line
           results.data[key].id = key;
           items.push(results.data[key]);
         });
@@ -51,4 +71,5 @@ export default {
   currentUID,
   atvCollectionCreate,
   readAtvCollection,
+  readSingleSaved,
 };
