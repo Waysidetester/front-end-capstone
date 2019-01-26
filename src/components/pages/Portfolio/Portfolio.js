@@ -27,7 +27,7 @@ class Portfolio extends React.Component {
 
     return (
       <div>
-        <h1>Portfolio</h1>
+        <h1>Tracking Portfolio</h1>
         {popList()}
       </div>
     );
