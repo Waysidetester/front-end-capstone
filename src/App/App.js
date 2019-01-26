@@ -11,6 +11,7 @@ import Auth from '../components/pages/Auth/Auth';
 import StockDetail from '../components/pages/StockDetail/StockDetail';
 import Portfolio from '../components/pages/Portfolio/Portfolio';
 import PortfolioDetail from '../components/pages/PortfolioDetail/PortfolioDetail';
+import RemovedPortfolio from '../components/pages/RemovedPortfolio/RemovedPortfolio';
 import fbMethods from '../helpers/firebase/fbMethods';
 import MyNav from '../components/MyNav/MyNav';
 import 'firebase/auth';
@@ -74,9 +75,10 @@ class App extends React.Component {
                   <PrivateRoute path='/stock/:ticker' exact component={StockDetail} authed={this.state.authed} />
                   <PrivateRoute path='/portfolio' exact component={Portfolio} authed={this.state.authed} />
                   <PrivateRoute path='/portfolio/:fbKey' exact component={PortfolioDetail} authed={this.state.authed} />
+                  <PrivateRoute path='/removed' exact component={RemovedPortfolio} authed={this.state.authed} />
 {/* <PrivateRoute path='/watching' exact component={Watching} authed={this.state.authed} />
 <PrivateRoute path='/watching/:fbKey' exact component={WatchingDetail} authed={this.state.authed} />
-<PrivateRoute path='/removed' exact component={Removed} authed={this.state.authed} />
+
 <PrivateRoute path='/removed/:fbKey' exactcomponent={RemovedDetail}authed={this.state.authed} /> */}
                 </Switch>
               </div>
