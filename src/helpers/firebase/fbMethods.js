@@ -31,9 +31,11 @@ const readAtvCollection = () => new Promise((resolve, reject) => {
       const items = [];
       if (results.data !== null) {
         Object.keys(results.data).forEach((key) => {
-          // eslint-disable-next-line
-          results.data[key].id = key;
-          items.push(results.data[key]);
+          if (!results.data[key].isRemoved) {
+            // eslint-disable-next-line
+            results.data[key].id = key;
+            items.push(results.data[key]);
+          }
         });
         resolve(items);
       }
@@ -62,6 +64,8 @@ const readSingleSaved = fbKey => new Promise((resolve, reject) => {
     });
 });
 
+const removeSecurity = (fbKey, updatedObj) => axios.put(`${fBaseUrl}/active-collection/${fbKey}.json`, updatedObj);
+
 const currentUID = () => firebase.auth().currentUser.uid;
 
 export default {
@@ -72,4 +76,5 @@ export default {
   atvCollectionCreate,
   readAtvCollection,
   readSingleSaved,
+  removeSecurity,
 };
