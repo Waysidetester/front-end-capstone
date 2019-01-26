@@ -1,6 +1,7 @@
 import React from 'react';
 import iexFactory from '../../../helpers/Api/iexFactory';
 import fbMethods from '../../../helpers/firebase/fbMethods';
+import DisplayDetailData from '../../DisplayDetailData/DisplayDetailData';
 import './StockDetail.scss';
 import SaveModal from '../../Modal/SaveModal';
 
@@ -37,15 +38,6 @@ class StockDetail extends React.Component {
   }
 
   render() {
-    // converts raw numbers to currency
-    const numToDollars = USD => USD.toLocaleString('en-us', { style: 'currency', currency: 'USD' });
-
-    // returns a string with a percentage # to the 2nd decimal
-    const percentifyer = (percentNum) => {
-      const percentage = percentNum * 100;
-      return `${percentage.toFixed(2)}%`;
-    };
-
     // builds stock object for axios call
     const savedStockObj = {
       isRemoved: false,
@@ -63,17 +55,7 @@ class StockDetail extends React.Component {
     if (this.state.stockQuote.symbol) {
       return (
         <div>
-          <h1>Stock Detail</h1>
-          <p>Company: {this.state.stockQuote.companyName}</p>
-          <p>Price: ${this.state.stockQuote.latestPrice}</p>
-          <p>% Daily Change: {percentifyer(this.state.stockQuote.changePercent)}</p>
-          <p>$ Daily Change: {numToDollars(this.state.stockQuote.change)}</p>
-          <p>Last Updated: {Date().toLocaleString(this.state.stockQuote.latestUpdate)}</p>
-          <p>Market Cap: {numToDollars(this.state.stockQuote.marketCap)}</p>
-          <p>PE Ratio: {this.state.stockQuote.peRatio}</p>
-          <p>52 Week High: {numToDollars(this.state.stockQuote.week52High)}</p>
-          <p>52 Week Low: {numToDollars(this.state.stockQuote.week52Low)}</p>
-          <p>Calculation Price: {this.state.stockQuote.calculationPrice}</p>
+          <DisplayDetailData stockQuote={this.state.stockQuote} />
           <SaveModal
           buttonLabel='Save Stock?'
           savedStockObj={savedStockObj}

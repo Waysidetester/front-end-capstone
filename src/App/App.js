@@ -72,8 +72,8 @@ class App extends React.Component {
                   <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
                   <PrivateRoute path='/stock/:ticker' exact component={StockDetail} authed={this.state.authed} />
                   <PrivateRoute path='/portfolio' exact component={Portfolio} authed={this.state.authed} />
-{/* <PrivateRoute path='/Portfolio/:fbKey' exact component={PortfolioDetail} authed={this.state.authed} />
-<PrivateRoute path='/watching' exact component={Watching} authed={this.state.authed} />
+                  {/* <PrivateRoute path='/Portfolio/:fbKey' exact component={PortfolioDetail} authed={this.state.authed} /> */}
+{/* <PrivateRoute path='/watching' exact component={Watching} authed={this.state.authed} />
 <PrivateRoute path='/watching/:fbKey' exact component={WatchingDetail} authed={this.state.authed} />
 <PrivateRoute path='/removed' exact component={Removed} authed={this.state.authed} />
 <PrivateRoute path='/removed/:fbKey' exactcomponent={RemovedDetail}authed={this.state.authed} /> */}
