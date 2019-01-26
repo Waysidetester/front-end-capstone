@@ -8,6 +8,7 @@ class PortfolioDetail extends React.Component {
   state = {
     stockQuote: {},
     userQuote: {},
+    isRemoved: false,
   }
 
   // Gets symbol from URL
@@ -44,6 +45,35 @@ class PortfolioDetail extends React.Component {
   }
 
   render() {
+    const removeStatus = () => {
+      const savedKey = this.state.userQuote.id;
+      const removeObj = this.state.userQuote;
+      removeObj.isRemoved = true;
+      removeObj.removeTimestamp = Date.now();
+      removeObj.removePrice = this.state.stockQuote.latestPrice;
+      fbMethods.removeSecurity(savedKey, removeObj)
+        .then(() => {
+          this.setState({
+            isRemoved: true,
+          });
+        });
+    };
+
+    if (this.state.isRemoved) {
+      const goBack = () => {
+        this.props.history.goBack();
+      };
+      return (
+        <div>
+          <h2>Successfully Removed</h2>
+          <button
+          className='btn btn-success'
+          onClick={goBack}
+          >Go Back</button>
+        </div>
+      );
+    }
+
     if (this.state.stockQuote !== undefined) {
       return (
         <div>
@@ -62,7 +92,10 @@ class PortfolioDetail extends React.Component {
                   * 100).toFixed(2)}%)
             </p>
           </div>
-          <button className='btn btn-danger'>Remove Security</button>
+          <button
+          className='btn btn-danger'
+          onClick={removeStatus}
+          >Remove Security</button>
           <DisplayDetailData stockQuote={this.state.stockQuote} />
         </div>
       );

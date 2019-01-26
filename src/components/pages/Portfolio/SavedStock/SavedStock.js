@@ -28,6 +28,7 @@ class SavedStock extends React.Component {
 
   state = {
     apiReturn: {},
+    isRemoved: false,
   }
 
   componentDidMount() {
@@ -53,15 +54,20 @@ class SavedStock extends React.Component {
   }
 
   render() {
+    // must be in render to ensure props is defined
     const removeStatus = () => {
-      console.log(this.props);
       const savedKey = this.props.fbDetail.id;
       const removeObj = this.props.fbDetail;
       removeObj.isRemoved = true;
       removeObj.removeTimestamp = Date.now();
       removeObj.removePrice = this.state.apiReturn.latestPrice;
-      fbMethods.removeSecurity(savedKey, removeObj);
-    }
+      fbMethods.removeSecurity(savedKey, removeObj)
+        .then(() => {
+          this.setState({
+            isRemoved: true,
+          });
+        });
+    };
 
     const totalROI = () => this.state.apiReturn.latestPrice - this.props.fbDetail.originPrice;
     const percentROI = () => (totalROI() / this.props.fbDetail.originPrice) * 100;
@@ -74,6 +80,19 @@ class SavedStock extends React.Component {
       };
       return originDate.toLocaleString('en-US', dateOptions);
     };
+
+    if (this.state.isRemoved) {
+      return (
+        <div>
+          <Card>
+            <CardHeader tag="h3">{this.state.apiReturn.companyName}</CardHeader>
+            <CardBody>
+              <CardTitle>Successfully Removed</CardTitle>
+            </CardBody>
+          </Card>
+        </div>
+      );
+    }
 
     if (this.state.apiReturn) {
       return (
