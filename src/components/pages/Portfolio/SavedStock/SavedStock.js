@@ -63,7 +63,10 @@ class SavedStock extends React.Component {
               <CardTitle>{this.props.fbDetail.ticker}</CardTitle>
               <CardText>Current Position: {totalROI().toFixed(2)}</CardText>
               <CardText>Current Return: {percentROI().toFixed(2)}%</CardText>
-              <Button>Detail</Button>
+              <a
+              className='btn btn-secondary'
+              href={`portfolio/${this.props.fbDetail.id}`}
+              >Detail</a>
               <Button className='btn-danger'>Remove</Button>
             </CardBody>
             <CardFooter className="text-muted">Aquired {localeTimer()}</CardFooter>
