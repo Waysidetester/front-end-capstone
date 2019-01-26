@@ -58,10 +58,11 @@ class PortfolioDetail extends React.Component {
               ({(
               (
                 (this.state.stockQuote.latestPrice - this.state.userQuote.originPrice)
-                     / this.state.userQuote.originPrice)
-                      * 100).toFixed(2)}%)
+                  / this.state.userQuote.originPrice)
+                  * 100).toFixed(2)}%)
             </p>
           </div>
+          <button className='btn btn-danger'>Remove Security</button>
           <DisplayDetailData stockQuote={this.state.stockQuote} />
         </div>
       );
