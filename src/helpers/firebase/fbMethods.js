@@ -91,6 +91,7 @@ const readRemovedFromActive = () => new Promise((resolve, reject) => {
     });
 });
 
+const removeSecurity = (fbKey, updatedObj) => axios.put(`${fBaseUrl}/active-collection/${fbKey}.json`, updatedObj);
 
 const currentUID = () => firebase.auth().currentUser.uid;
 
@@ -103,4 +104,5 @@ export default {
   readAtvCollection,
   readSingleSaved,
   readRemovedFromActive,
+  removeSecurity,
 };
