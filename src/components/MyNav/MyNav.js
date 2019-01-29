@@ -12,13 +12,30 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import fbMethods from '../../helpers/firebase/fbMethods';
+import WatchingNav from './WatchingNav/WatchingNav';
 
 class MyNav extends React.Component {
   static propTypes = {
     authed: PropTypes.bool,
   }
 
+  state = {
+    watchingSymbol: [],
+  };
+  
+  componentDidMount() {
+    fbMethods.readWatchingTicker()
+      .then((data) => {
+        this.setState({ watchingSymbol: data });
+      })
+      .catch((err) => {
+        console.error('error getting watched tickers', err);
+      });
+  }
+
   render() {
+    const populateWatching = this.state.watchingSymbol.map(symbol => <WatchingNav key={symbol} symbol={symbol} />);
+
     if (this.props.authed) {
       return (
         <div>
@@ -36,10 +53,14 @@ class MyNav extends React.Component {
                   <DropdownItem href='/removed'>
                     Completed
                   </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Reset
-                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                Watching
+                </DropdownToggle>
+                <DropdownMenu right>
+                  {populateWatching}
                 </DropdownMenu>
               </UncontrolledDropdown>
                 <NavItem onClick={fbMethods.logout}>

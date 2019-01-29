@@ -2,6 +2,7 @@ import React from 'react';
 import iexFactory from '../../../helpers/Api/iexFactory';
 import fbMethods from '../../../helpers/firebase/fbMethods';
 import DisplayDetailData from '../../DisplayDetailData/DisplayDetailData';
+import Watching from './Watching/Watching';
 import './StockDetail.scss';
 import SaveModal from '../../Modal/SaveModal';
 
@@ -38,7 +39,7 @@ class StockDetail extends React.Component {
   }
 
   render() {
-    // builds stock object for axios call
+    // builds stock object for active collection call
     const savedStockObj = {
       isRemoved: false,
       ticker: this.state.stockQuote.symbol,
@@ -49,12 +50,16 @@ class StockDetail extends React.Component {
       uid: fbMethods.currentUID(),
     };
 
+    // saving stock to active collection
     const saveStock = () => fbMethods.atvCollectionCreate(savedStockObj);
 
     // returns if a valid ticker is entered
     if (this.state.stockQuote.symbol) {
       return (
         <div>
+          <Watching
+          stockSymbol={this.state.stockQuote.symbol}
+          />
           <DisplayDetailData stockQuote={this.state.stockQuote} />
           <SaveModal
           buttonLabel='Save Stock?'

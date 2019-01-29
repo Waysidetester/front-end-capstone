@@ -53,7 +53,6 @@ class DisplayDetailData extends React.Component {
     if (this.props.stockQuote.change !== undefined) {
       return (
         <div>
-          <h1>Stock Detail</h1>
           <p>Company: {this.props.stockQuote.companyName}</p>
           <p>Price: ${this.props.stockQuote.latestPrice}</p>
           <p>% Daily Change: {percentifyer(this.props.stockQuote.changePercent)}</p>
