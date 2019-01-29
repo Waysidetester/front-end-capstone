@@ -100,18 +100,16 @@ const removeSecurity = (fbKey, updatedObj) => axios.put(`${fBaseUrl}/active-coll
 
 /* ******************** Begin Watchlist Methods ************************************ */
 
-const readWatching = () => new Promise((resolve, reject) => {
+const readWatchingList = () => new Promise((resolve, reject) => {
   // filtering returned stocks in database call to match user
   axios.get(`${fBaseUrl}/watching.json?orderBy="uid"&equalTo="${firebase.auth().currentUser.uid}"`)
     .then((results) => {
       const items = [];
       if (results.data !== null) {
         Object.keys(results.data).forEach((key) => {
-          if (!results.data[key].isRemoved) {
-            // eslint-disable-next-line
-            results.data[key].id = key;
-            items.push(results.data[key]);
-          }
+          // eslint-disable-next-line
+          results.data[key].id = key;
+          items.push(results.data[key]);
         });
         resolve(items);
       }
@@ -121,8 +119,26 @@ const readWatching = () => new Promise((resolve, reject) => {
     });
 });
 
+const readWatchingTicker = () => new Promise((resolve, reject) => {
+  // filtering returned stocks in database call to match user
+  axios.get(`${fBaseUrl}/watching.json?orderBy="uid"&equalTo="${firebase.auth().currentUser.uid}"`)
+    .then((results) => {
+      const items = [];
+      if (results.data !== null) {
+        Object.keys(results.data).forEach((key) => {
+          items.push(results.data[key].ticker);
+        });
+        resolve(items);
+      }
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
 
 const watchingCreate = watchingObj => axios.post(`${fBaseUrl}/watching.json`, watchingObj);
+
+const watchingDelete = watchingKey => axios.delete(`${fBaseUrl}/watching/${watchingKey}.json`);
 
 /* ******************** End Watchlist Methods ************************************** */
 
@@ -140,5 +156,7 @@ export default {
   readRemovedFromActive,
   removeSecurity,
   watchingCreate,
-  readWatching,
+  readWatchingList,
+  readWatchingTicker,
+  watchingDelete,
 };

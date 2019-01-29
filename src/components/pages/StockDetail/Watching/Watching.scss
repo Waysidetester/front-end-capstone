@@ -1,0 +1,28 @@
+.watchlist-select {
+  margin: auto 20px;
+  transition: background-color .25s ease-out; 
+  border: 1px solid  green;
+  border-radius: 50px;
+  width: 30px;
+  height: auto;
+}
+
+.watchlist-select:hover {
+  transition: background-color .25s ease-out; 
+  background-color: green;
+}
+
+.watchlist-deselect {
+  margin: auto 20px;
+  transition: background-color .25s ease-out; 
+  border: 1px solid  green;
+  border-radius: 50px;
+  width: 30px;
+  height: auto;
+  background-color: green;
+}
+
+.watchlist-deselect:hover {
+  transition: background-color .25s ease-out; 
+  background-color: rgba(0, 0, 0, 0);
+}
