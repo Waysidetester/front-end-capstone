@@ -4,7 +4,7 @@ import { DropdownItem } from 'reactstrap';
 class WatchingNav extends React.Component {
   render() {
     return (
-      <DropdownItem href={`stock/${this.props.symbol}`}>
+      <DropdownItem href={`/stock/${this.props.symbol}`}>
         {this.props.symbol}
       </DropdownItem>
     );

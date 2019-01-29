@@ -19,29 +19,22 @@ class MyNav extends React.Component {
     authed: PropTypes.bool,
   }
 
+  state = {
+    watchingSymbol: [],
+  };
+  
+  componentDidMount() {
+    fbMethods.readWatchingTicker()
+      .then((data) => {
+        this.setState({ watchingSymbol: data });
+      })
+      .catch((err) => {
+        console.error('error getting watched tickers', err);
+      });
+  }
+
   render() {
-    const populateWatching = () => {
-      let x = [];
-      fbMethods.readWatchingTicker()
-        .then((data) => {
-          x = data;
-          x.map(symbol => <WatchingNav symbol={symbol} />);
-          console.log(x);
-        })
-        .catch((err) => {
-          console.error('error getting watched tickers', err);
-        });
-      return (
-      <UncontrolledDropdown nav inNavbar>
-        <DropdownToggle nav caret>
-        Watching
-        </DropdownToggle>
-        <DropdownMenu right>
-        {x}
-        </DropdownMenu>
-      </UncontrolledDropdown>
-      );
-    };
+    const populateWatching = this.state.watchingSymbol.map(symbol => <WatchingNav key={symbol} symbol={symbol} />);
 
     if (this.props.authed) {
       return (
@@ -62,7 +55,14 @@ class MyNav extends React.Component {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-              {populateWatching()}
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                Watching
+                </DropdownToggle>
+                <DropdownMenu right>
+                  {populateWatching}
+                </DropdownMenu>
+              </UncontrolledDropdown>
                 <NavItem onClick={fbMethods.logout}>
                   <NavLink >Sign Out</NavLink>
                 </NavItem>
