@@ -15,7 +15,10 @@ class Watching extends React.Component {
   };
 
   checkIfWatched = () => {
-    const validator = {};
+    const validator = {
+      watching: false,
+      id: '',
+    };
     this.state.watchingList.forEach((stock) => {
       if (stock.ticker === this.props.stockSymbol) {
         validator.watching = true;
