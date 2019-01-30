@@ -13,6 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import fbMethods from '../../helpers/firebase/fbMethods';
 import WatchingNav from './WatchingNav/WatchingNav';
+import './MyNav.scss';
 
 class MyNav extends React.Component {
   static propTypes = {
@@ -22,7 +23,7 @@ class MyNav extends React.Component {
   state = {
     watchingSymbol: [],
   };
-  
+
   componentDidMount() {
     fbMethods.readWatchingTicker()
       .then((data) => {
@@ -34,7 +35,9 @@ class MyNav extends React.Component {
   }
 
   render() {
-    const populateWatching = this.state.watchingSymbol.map(symbol => <WatchingNav key={symbol} symbol={symbol} />);
+    const populateWatching = this.state.watchingSymbol.map(
+      symbol => <WatchingNav key={symbol} symbol={symbol} />,
+    );
 
     if (this.props.authed) {
       return (
@@ -42,6 +45,7 @@ class MyNav extends React.Component {
           <Navbar color="dark" dark expand="md">
             <NavbarBrand href="/">Renenutet</NavbarBrand>
               <Nav className="ml-auto" navbar>
+              {/* Personal Portfolio Dropdown */}
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                 Portfolio
@@ -55,14 +59,19 @@ class MyNav extends React.Component {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
+              {/* End Personal Portfolio Dropdown */}
+
+              {/* Watching Nav Dropdown */}
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                 Watching
                 </DropdownToggle>
-                <DropdownMenu right>
+                <DropdownMenu right className="watching-nav">
                   {populateWatching}
                 </DropdownMenu>
               </UncontrolledDropdown>
+              {/* End Watching Nav Dropdown */}
+
                 <NavItem onClick={fbMethods.logout}>
                   <NavLink >Sign Out</NavLink>
                 </NavItem>
