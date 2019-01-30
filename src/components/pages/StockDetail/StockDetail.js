@@ -3,12 +3,14 @@ import iexFactory from '../../../helpers/Api/iexFactory';
 import fbMethods from '../../../helpers/firebase/fbMethods';
 import DisplayDetailData from '../../DisplayDetailData/DisplayDetailData';
 import Watching from './Watching/Watching';
+import Charts from '../../Charts/Charts';
 import './StockDetail.scss';
 import SaveModal from '../../Modal/SaveModal';
 
 class StockDetail extends React.Component {
   state = {
     stockQuote: {},
+    chartData: [],
   }
 
   // Gets symbol from URL
@@ -21,6 +23,10 @@ class StockDetail extends React.Component {
         this.setState({
           stockQuote: data,
         });
+        iexFactory.chartValues(this.state.stockQuote.symbol, '1d')
+          .then((chartValues) => {
+            this.setState({ chartData: chartValues });
+          });
       })
       .catch((err) => {
         console.error('error in StockDetail.js', err);
@@ -60,6 +66,7 @@ class StockDetail extends React.Component {
           <Watching
           stockSymbol={this.state.stockQuote.symbol}
           />
+          <Charts chartData={this.state.chartData}/>
           <DisplayDetailData stockQuote={this.state.stockQuote} />
           <SaveModal
           buttonLabel='Save Stock?'
