@@ -16,6 +16,7 @@ class StockDetail extends React.Component {
   // Gets symbol from URL
   symbol = this.props.match.params.ticker;
 
+  // chart data api call that sets data to state
   chartGenerator = (chartTimeFrame) => {
     iexFactory.chartValues(this.state.stockQuote.symbol, chartTimeFrame)
       .then((chartValues) => {
@@ -23,6 +24,7 @@ class StockDetail extends React.Component {
       });
   }
 
+  // changes timeframe that api returns for chart data points
   chartTimeFrameChanger = (e) => {
     this.setState({
       chartTimeFrame: e.currentTarget.innerHTML,
@@ -37,6 +39,7 @@ class StockDetail extends React.Component {
         this.setState({
           stockQuote: data,
         });
+        // creates initial chart from data returned
         this.chartGenerator('1d');
       })
       .catch((err) => {
@@ -74,12 +77,21 @@ class StockDetail extends React.Component {
     if (this.state.stockQuote.symbol) {
       return (
         <div>
+          {/* renders watching component and functionality */}
           <Watching
           stockSymbol={this.state.stockQuote.symbol}
           />
-          <Charts chartData={this.state.chartData} chartTimeFrameChanger={this.chartTimeFrameChanger}/>
-          
+
+          {/* displays chart on api data */}
+          <Charts
+          chartData={this.state.chartData}
+          chartTimeFrameChanger={this.chartTimeFrameChanger}
+          />
+
+          {/* returns generic data from api */}
           <DisplayDetailData stockQuote={this.state.stockQuote} />
+
+          {/* modal that appears on click */}
           <SaveModal
           buttonLabel='Save Stock?'
           savedStockObj={savedStockObj}
@@ -90,6 +102,7 @@ class StockDetail extends React.Component {
       );
     }
 
+    // invalid route redirect page
     return (
       <div>
         <h1>Stock Detail</h1>

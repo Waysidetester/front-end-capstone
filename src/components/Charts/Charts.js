@@ -16,12 +16,14 @@ class Charts extends React.Component {
     chartData: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       low: PropTypes.number,
+      chartTimeFrameChanger: PropTypes.func,
     })),
   }
 
   render() {
     return (
       <div>
+        {/* ReCharts package http://recharts.org */}
         <LineChart
         width={730}
         height={250}
@@ -38,6 +40,8 @@ class Charts extends React.Component {
           <Tooltip />
           <Line type="monotone" dataKey="low" dot={false}/>
         </LineChart>
+
+        {/* buttons to select timeframe for stock chart */}
         <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1d</Button>
         <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1m</Button>
         <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>3m</Button>
