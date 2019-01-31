@@ -16,6 +16,20 @@ class StockDetail extends React.Component {
   // Gets symbol from URL
   symbol = this.props.match.params.ticker;
 
+  chartGenerator = (chartTimeFrame) => {
+    iexFactory.chartValues(this.state.stockQuote.symbol, chartTimeFrame)
+      .then((chartValues) => {
+        this.setState({ chartData: chartValues });
+      });
+  }
+
+  chartTimeFrameChanger = (e) => {
+    this.setState({
+      chartTimeFrame: e.currentTarget.innerHTML,
+    });
+    this.chartGenerator(e.currentTarget.innerHTML);
+  }
+
   // API call to populate data
   quoteGetter = () => {
     iexFactory.quoteRequest(this.symbol)
@@ -23,10 +37,7 @@ class StockDetail extends React.Component {
         this.setState({
           stockQuote: data,
         });
-        iexFactory.chartValues(this.state.stockQuote.symbol, '1d')
-          .then((chartValues) => {
-            this.setState({ chartData: chartValues });
-          });
+        this.chartGenerator('1d');
       })
       .catch((err) => {
         console.error('error in StockDetail.js', err);
@@ -66,7 +77,8 @@ class StockDetail extends React.Component {
           <Watching
           stockSymbol={this.state.stockQuote.symbol}
           />
-          <Charts chartData={this.state.chartData}/>
+          <Charts chartData={this.state.chartData} chartTimeFrameChanger={this.chartTimeFrameChanger}/>
+          
           <DisplayDetailData stockQuote={this.state.stockQuote} />
           <SaveModal
           buttonLabel='Save Stock?'
