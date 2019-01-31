@@ -3,16 +3,34 @@ import iexFactory from '../../../helpers/Api/iexFactory';
 import fbMethods from '../../../helpers/firebase/fbMethods';
 import DisplayDetailData from '../../DisplayDetailData/DisplayDetailData';
 import Watching from './Watching/Watching';
+import Charts from '../../Charts/Charts';
 import './StockDetail.scss';
 import SaveModal from '../../Modal/SaveModal';
 
 class StockDetail extends React.Component {
   state = {
     stockQuote: {},
+    chartData: [],
   }
 
   // Gets symbol from URL
   symbol = this.props.match.params.ticker;
+
+  // chart data api call that sets data to state
+  chartGenerator = (chartTimeFrame) => {
+    iexFactory.chartValues(this.state.stockQuote.symbol, chartTimeFrame)
+      .then((chartValues) => {
+        this.setState({ chartData: chartValues });
+      });
+  }
+
+  // changes timeframe that api returns for chart data points
+  chartTimeFrameChanger = (e) => {
+    this.setState({
+      chartTimeFrame: e.currentTarget.innerHTML,
+    });
+    this.chartGenerator(e.currentTarget.innerHTML);
+  }
 
   // API call to populate data
   quoteGetter = () => {
@@ -21,6 +39,8 @@ class StockDetail extends React.Component {
         this.setState({
           stockQuote: data,
         });
+        // creates initial chart from data returned
+        this.chartGenerator('1d');
       })
       .catch((err) => {
         console.error('error in StockDetail.js', err);
@@ -57,10 +77,21 @@ class StockDetail extends React.Component {
     if (this.state.stockQuote.symbol) {
       return (
         <div>
+          {/* renders watching component and functionality */}
           <Watching
           stockSymbol={this.state.stockQuote.symbol}
           />
+
+          {/* displays chart on api data */}
+          <Charts
+          chartData={this.state.chartData}
+          chartTimeFrameChanger={this.chartTimeFrameChanger}
+          />
+
+          {/* returns generic data from api */}
           <DisplayDetailData stockQuote={this.state.stockQuote} />
+
+          {/* modal that appears on click */}
           <SaveModal
           buttonLabel='Save Stock?'
           savedStockObj={savedStockObj}
@@ -71,6 +102,7 @@ class StockDetail extends React.Component {
       );
     }
 
+    // invalid route redirect page
     return (
       <div>
         <h1>Stock Detail</h1>

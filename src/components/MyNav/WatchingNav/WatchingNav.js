@@ -9,6 +9,6 @@ class WatchingNav extends React.Component {
       </DropdownItem>
     );
   }
-};
+}
 
 export default WatchingNav;

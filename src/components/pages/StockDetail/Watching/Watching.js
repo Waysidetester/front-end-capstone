@@ -14,8 +14,15 @@ class Watching extends React.Component {
     watchingId: '',
   };
 
+  /* determines if current stock is being
+     watched by the user. this will set the state
+     which the component checks before adding functions and classes
+     to the + button */
   checkIfWatched = () => {
-    const validator = {};
+    const validator = {
+      watching: false,
+      id: '',
+    };
     this.state.watchingList.forEach((stock) => {
       if (stock.ticker === this.props.stockSymbol) {
         validator.watching = true;
@@ -28,6 +35,8 @@ class Watching extends React.Component {
     });
   }
 
+  /* reads database and returns all stocks the user is watching then,
+     validates it within this component */
   watchingListMaker = () => {
     fbMethods.readWatchingList()
       .then((data) => {
@@ -52,8 +61,7 @@ class Watching extends React.Component {
       uid: fbMethods.currentUID(),
     };
 
-
-    // saving stock to active collection
+    // saving stock to watching collection
     const saveWatch = () => {
       this.props.stockSymbol
         ? fbMethods.watchingCreate(watchingStockObj).then(() => {
@@ -63,6 +71,7 @@ class Watching extends React.Component {
         : console.error('error reading stock symbol');
     };
 
+    // removes stock from watching collections
     const removeWatch = () => {
       fbMethods.watchingDelete(this.state.watchingId)
         .then(() => {
