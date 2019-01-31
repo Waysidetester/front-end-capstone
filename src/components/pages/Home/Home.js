@@ -9,10 +9,16 @@ import {
   InputGroupText,
   Button,
 } from 'reactstrap';
+import fbMethods from '../../../helpers/firebase/fbMethods';
 import iexFactory from '../../../helpers/Api/iexFactory';
 import './Home.scss';
 
 class Home extends React.Component {
+  state = {
+    validStockObj: {},
+    validStockKeys: [],
+  }
+
   searchTicker = (e) => {
     e.preventDefault();
     const ticker = document.getElementById('home-ticker').value;
@@ -26,6 +32,22 @@ class Home extends React.Component {
   }
 
   render() {
+    const checkStateKeys = (e) => {
+      console.log(this.state.validStockKeys.filter((x) => {
+        if (x.includes(e.target.value.toUpperCase())) {
+          return x;
+        }
+        return null;
+      }));
+    };
+
+    fbMethods.validTicker()
+      .then((data) => {
+        this.setState({
+          validStockObj: data,
+          validStockKeys: Object.keys(data),
+        });
+      });
     return (
       <Card body className="text-center mt-5">
       <CardTitle>
@@ -33,7 +55,7 @@ class Home extends React.Component {
       </CardTitle>
       <CardText>Search for a stock</CardText>
       <InputGroup>
-        <Input id='home-ticker' autoComplete='off'/>
+        <Input id='home-ticker' autoComplete='off' onKeyUp={checkStateKeys} />
         <InputGroupAddon addonType="append">
           <InputGroupText>Enter Ticker</InputGroupText>
         </InputGroupAddon>
