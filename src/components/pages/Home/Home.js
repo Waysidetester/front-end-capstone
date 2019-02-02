@@ -35,6 +35,7 @@ class Home extends React.Component {
   }
 
   render() {
+    // on keyUp in search input execute this function
     const checkStateKeys = (e) => {
       const searchedTicker = [];
       this.state.validStockKeys.filter((x) => {
@@ -46,8 +47,12 @@ class Home extends React.Component {
       this.setState({
         searchedStock: searchedTicker,
       });
+      if (e.keyCode === 13) {
+        this.searchTicker(e);
+      }
     };
 
+    // build auto-search suggestions
     const populateSuggestions = this.state.searchedStock.map(
       symbol => <SuggestedTicker
         key={symbol}
@@ -56,6 +61,8 @@ class Home extends React.Component {
         />,
     );
 
+    /* get valid tickers from database for later retreival
+       and create array of all tickers */
     fbMethods.validTicker()
       .then((data) => {
         this.setState({
