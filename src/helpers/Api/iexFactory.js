@@ -30,7 +30,7 @@ const chartValues = (ticker, timeFrame) => new Promise((resolve, reject) => {
     .then((res) => {
       const validLow = [];
       res.data.forEach((x) => {
-        if (x.low !== -1) {
+        if (x.low !== -1 && typeof x.low === 'number') {
           x.low.toFixed(2);
           validLow.push(x);
         }

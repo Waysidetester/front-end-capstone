@@ -16,5 +16,6 @@
       "ticker" : "sample ticker",
       "uid" : "firebase uid for validation"
     }
-  }
+  },
+  "supported-symbols": {}
 }

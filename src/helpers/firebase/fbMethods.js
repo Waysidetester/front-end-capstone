@@ -142,6 +142,15 @@ const watchingDelete = watchingKey => axios.delete(`${fBaseUrl}/watching/${watch
 
 /* ******************** End Watchlist Methods ************************************** */
 
+const validTicker = () => new Promise((resolve, reject) => {
+  axios.get(`${fBaseUrl}/supported-symbols.json`)
+    .then((results) => {
+      resolve(results.data);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
 
 const currentUID = () => firebase.auth().currentUser.uid;
 
@@ -159,4 +168,5 @@ export default {
   readWatchingList,
   readWatchingTicker,
   watchingDelete,
+  validTicker,
 };
