@@ -11,6 +11,7 @@ class StockDetail extends React.Component {
   state = {
     stockQuote: {},
     chartData: [],
+    logo: undefined,
   }
 
   // Gets symbol from URL
@@ -36,11 +37,15 @@ class StockDetail extends React.Component {
   quoteGetter = () => {
     iexFactory.quoteRequest(this.symbol)
       .then((data) => {
-        this.setState({
-          stockQuote: data,
-        });
-        // creates initial chart from data returned
-        this.chartGenerator('1d');
+        iexFactory.getLogo(data.symbol)
+          .then((image) => {
+            this.setState({
+              stockQuote: data,
+              logo: image.url,
+            });
+            // creates initial chart from data returned
+            this.chartGenerator('1d');
+          });
       })
       .catch((err) => {
         console.error('error in StockDetail.js', err);
@@ -89,7 +94,7 @@ class StockDetail extends React.Component {
           />
 
           {/* returns generic data from api */}
-          <DisplayDetailData stockQuote={this.state.stockQuote} />
+          <DisplayDetailData stockQuote={this.state.stockQuote} logo={this.state.logo}/>
 
           {/* modal that appears on click */}
           <SaveModal
