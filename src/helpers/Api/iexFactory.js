@@ -47,10 +47,32 @@ const getLogo = ticker => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
+const getFinancialDetail = ticker => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/stock/${ticker}/financials`)
+    .then(res => resolve(res.data))
+    .catch(err => reject(err));
+});
+
+const getCompanyDetails = ticker => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/stock/${ticker}/company`)
+    .then(res => resolve(res.data))
+    .catch(err => reject(err));
+});
+
+const getNewsInfo = ticker => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/stock/${ticker}/news`)
+    .then(res => resolve(res.data))
+    .catch(err => reject(err));
+});
+
+
 export default {
   symbolRequest,
   quoteRequest,
   savedStockInfo,
   chartValues,
   getLogo,
+  getFinancialDetail,
+  getNewsInfo,
+  getCompanyDetails,
 };

@@ -27,9 +27,6 @@ class StockDetail extends React.Component {
 
   // changes timeframe that api returns for chart data points
   chartTimeFrameChanger = (e) => {
-    this.setState({
-      chartTimeFrame: e.currentTarget.innerHTML,
-    });
     this.chartGenerator(e.currentTarget.innerHTML);
   }
 
