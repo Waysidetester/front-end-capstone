@@ -8,7 +8,9 @@ import {
   Input,
   InputGroupText,
   Button,
+  ListGroup,
 } from 'reactstrap';
+import SuggestedTicker from '../../SuggestedTicker/SuggestedTicker';
 import fbMethods from '../../../helpers/firebase/fbMethods';
 import iexFactory from '../../../helpers/Api/iexFactory';
 import './Home.scss';
@@ -17,6 +19,7 @@ class Home extends React.Component {
   state = {
     validStockObj: {},
     validStockKeys: [],
+    searchedStock: [],
   }
 
   searchTicker = (e) => {
@@ -33,13 +36,26 @@ class Home extends React.Component {
 
   render() {
     const checkStateKeys = (e) => {
-      console.log(this.state.validStockKeys.filter((x) => {
+      const searchedTicker = [];
+      this.state.validStockKeys.filter((x) => {
         if (x.includes(e.target.value.toUpperCase())) {
-          return x;
+          searchedTicker.push(x);
         }
         return null;
-      }));
+      });
+      this.setState({
+        searchedStock: searchedTicker,
+      });
+      console.log(this.state.searchedStock);
     };
+
+    const populateSuggestions = this.state.searchedStock.map(
+      symbol => <SuggestedTicker
+        key={symbol}
+        symbol={symbol}
+        compName={this.state.validStockObj[symbol].name}
+        />,
+    );
 
     fbMethods.validTicker()
       .then((data) => {
@@ -48,6 +64,7 @@ class Home extends React.Component {
           validStockKeys: Object.keys(data),
         });
       });
+
     return (
       <Card body className="text-center mt-5">
       <CardTitle>
@@ -55,16 +72,20 @@ class Home extends React.Component {
       </CardTitle>
       <CardText>Search for a stock</CardText>
       <InputGroup>
-        <Input id='home-ticker' autoComplete='off' onKeyUp={checkStateKeys} />
         <InputGroupAddon addonType="append">
           <InputGroupText>Enter Ticker</InputGroupText>
         </InputGroupAddon>
+        <Input id='home-ticker' autoComplete='off' onKeyUp={checkStateKeys} />
+        <InputGroupAddon addonType="append">
+          <Button
+          id='search-submit'
+          onClick={this.searchTicker}
+          >Search</Button>
+        </InputGroupAddon>
       </InputGroup>
-      <Button
-      className='mt-1'
-      id='search-submit'
-      onClick={this.searchTicker}
-      >Search</Button>
+      <ListGroup className='suggested-list'>
+        {populateSuggestions}
+      </ListGroup>
     </Card>
     );
   }

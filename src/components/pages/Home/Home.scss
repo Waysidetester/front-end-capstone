@@ -2,3 +2,8 @@
   margin: 0 auto;
   width: 150px;
 }
+
+.suggested-list {
+  max-height: 150px;
+  overflow-y: scroll;
+}
