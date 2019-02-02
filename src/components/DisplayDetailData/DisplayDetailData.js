@@ -37,6 +37,7 @@ class DisplayDetailData extends React.Component {
       week52Low: PropTypes.number,
       ytdChange: PropTypes.number,
     }),
+    logo: PropTypes.string,
   }
 
   render() {
@@ -52,8 +53,15 @@ class DisplayDetailData extends React.Component {
     // primary render is set as undefined. Must wait for parent to pass props before render
     if (this.props.stockQuote.change !== undefined) {
       return (
-        <div>
-          <p>Company: {this.props.stockQuote.companyName}</p>
+        <div className='detail-container'>
+          <p>
+            <img
+            src={this.props.logo}
+            className='detail-logo'
+            alt={`${this.props.stockQuote.companyName} logo`}
+            />
+             {'  '}Company: {this.props.stockQuote.companyName}
+          </p>
           <p>Price: ${this.props.stockQuote.latestPrice}</p>
           <p>% Daily Change: {percentifyer(this.props.stockQuote.changePercent)}</p>
           <p>$ Daily Change: {numToDollars(this.props.stockQuote.change)}</p>

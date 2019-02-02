@@ -35,9 +35,18 @@ class MyNav extends React.Component {
   }
 
   render() {
-    const populateWatching = this.state.watchingSymbol.map(
-      symbol => <WatchingNav key={symbol} symbol={symbol} />,
-    );
+    const populateWatching = () => {
+      if (this.state.watchingSymbol.length) {
+        return this.state.watchingSymbol.map(
+          symbol => <WatchingNav key={symbol} symbol={symbol} />,
+        );
+        // eslint-disable-next-line
+      }
+      // eslint-disable-next-line
+      else {
+        return <div>No Stocks Watched</div>;
+      }
+    };
 
     if (this.props.authed) {
       return (
@@ -67,7 +76,7 @@ class MyNav extends React.Component {
                 Watching
                 </DropdownToggle>
                 <DropdownMenu right className="watching-nav">
-                  {populateWatching}
+                  {populateWatching()}
                 </DropdownMenu>
               </UncontrolledDropdown>
               {/* End Watching Nav Dropdown */}

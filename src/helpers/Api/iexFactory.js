@@ -40,9 +40,17 @@ const chartValues = (ticker, timeFrame) => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
+// returns logo images from api database
+const getLogo = ticker => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/stock/${ticker}/logo`)
+    .then(res => resolve(res.data))
+    .catch(err => reject(err));
+});
+
 export default {
   symbolRequest,
   quoteRequest,
   savedStockInfo,
   chartValues,
+  getLogo,
 };

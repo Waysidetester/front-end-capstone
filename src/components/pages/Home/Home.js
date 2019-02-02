@@ -46,7 +46,6 @@ class Home extends React.Component {
       this.setState({
         searchedStock: searchedTicker,
       });
-      console.log(this.state.searchedStock);
     };
 
     const populateSuggestions = this.state.searchedStock.map(

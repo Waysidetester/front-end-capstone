@@ -9,6 +9,7 @@ class PortfolioDetail extends React.Component {
     stockQuote: {},
     userQuote: {},
     isRemoved: false,
+    logo: undefined,
   }
 
   // Gets symbol from URL
@@ -19,9 +20,13 @@ class PortfolioDetail extends React.Component {
   quoteGetter = () => {
     iexFactory.quoteRequest(this.state.userQuote.ticker)
       .then((data) => {
-        this.setState({
-          stockQuote: data,
-        });
+        iexFactory.getLogo(data.symbol)
+          .then((image) => {
+            this.setState({
+              stockQuote: data,
+              logo: image.url,
+            });
+          });
       })
       .catch((err) => {
         console.error('error in StockDetail.js', err);
@@ -45,6 +50,10 @@ class PortfolioDetail extends React.Component {
   }
 
   render() {
+    // ============== remove functionality =================
+
+    /* function to remove security from actively watching
+       and adds detail for removed status */
     const removeStatus = () => {
       const savedKey = this.state.userQuote.id;
       const removeObj = this.state.userQuote;
@@ -59,6 +68,8 @@ class PortfolioDetail extends React.Component {
         });
     };
 
+    /* informs user a security was successfully removed
+       and gives affordance to return to portfolio summary */
     if (this.state.isRemoved) {
       const goBack = () => {
         this.props.history.goBack();
@@ -74,6 +85,11 @@ class PortfolioDetail extends React.Component {
       );
     }
 
+    // ============== end remove functionality ===============
+
+    // ============== render section =========================
+
+    // display if information is valid
     if (this.state.stockQuote !== undefined) {
       return (
         <div>
@@ -96,13 +112,15 @@ class PortfolioDetail extends React.Component {
           className='btn btn-danger'
           onClick={removeStatus}
           >Remove Security</button>
-          <DisplayDetailData stockQuote={this.state.stockQuote} />
+          <DisplayDetailData stockQuote={this.state.stockQuote} logo={this.state.logo}/>
         </div>
       );
     }
 
+    // default info on bad request
     return (
-      <div>port detail
+      <div>
+        Bad request. Please try again.
       </div>
     );
   }
