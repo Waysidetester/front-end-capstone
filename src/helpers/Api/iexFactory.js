@@ -49,7 +49,7 @@ const getLogo = ticker => new Promise((resolve, reject) => {
 
 const getFinancialDetail = ticker => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/stock/${ticker}/financials`)
-    .then(res => resolve(res.data))
+    .then(res => resolve(res.data.financials[0]))
     .catch(err => reject(err));
 });
 
