@@ -6,3 +6,13 @@
 .detail-container {
   margin-top: 19px;
 }
+
+.detail-selector {
+  padding-right: 5px;
+  padding-left: 5px;
+  border-left: 1px solid rgb(77, 76, 76); 
+}
+
+.detail-selector:first-of-type {
+  border-left: none;
+}

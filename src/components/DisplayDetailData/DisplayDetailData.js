@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './DisplayDetailData.scss';
+import BasicDetail from './BasicDetail/BasicDetail';
+import CompanyDetail from './CompanyDetail/CompanyDetail';
+import FinancialDetail from './FinancialDetail/FinancialDetail';
+import NewsDetail from './NewsDetail/NewsDetail';
+import iexFactory from '../../helpers/Api/iexFactory';
 
 class DisplayDetailData extends React.Component {
   static propTypes = {
@@ -40,15 +45,87 @@ class DisplayDetailData extends React.Component {
     logo: PropTypes.string,
   }
 
+  state = {
+    selectedDetail: <BasicDetail stockQuote={this.props.stockQuote} />,
+    companyInfo: null,
+    financials: null,
+    newsDetail: null,
+  }
+
   render() {
-    // returns a string with a percentage # to the 2nd decimal
-    const percentifyer = (percentNum) => {
-      const percentage = percentNum * 100;
-      return `${percentage.toFixed(2)}%`;
+    // information selector. Defaults to basic info
+    const chooseDetail = (e) => {
+      const selectedDetail = e.target.innerHTML;
+      let selected;
+      switch (selectedDetail) {
+        case 'Stock Info':
+          this.setState({ selectedDetail: <BasicDetail stockQuote={this.props.stockQuote} /> });
+          break;
+        case 'Company Details':
+          this.setState({ selectedDetail: <CompanyDetail companyInfo={this.state.companyInfo}/> });
+          break;
+        case 'Financial Info':
+          this.setState({ selectedDetail: <FinancialDetail financials={this.state.financials}/> });
+          break;
+        case 'Related News':
+          this.setState({ selectedDetail: <NewsDetail newsDetail={this.state.newsDetail}/> });
+          break;
+        default: selected = <BasicDetail stockQuote={this.props.stockQuote} />;
+      }
+      return selected;
     };
 
-    // converts raw numbers to currency
-    const numToDollars = USD => USD.toLocaleString('en-us', { style: 'currency', currency: 'USD' });
+
+    // ============= API call if info is requested ==================
+    const popCompDetails = (e) => {
+      e.persist();
+      if (this.state.companyInfo === null) {
+        iexFactory.getCompanyDetails(this.props.stockQuote.symbol)
+          .then((compDetails) => {
+            this.setState({
+              companyInfo: compDetails,
+            });
+            chooseDetail(e);
+          })
+          .catch((err) => {
+            console.error('error getting company info', err);
+          });
+      }
+    };
+
+    const popFinDetails = (e) => {
+      e.persist();
+      if (this.state.financials === null) {
+        iexFactory.getFinancialDetail(this.props.stockQuote.symbol)
+          .then((finDetail) => {
+            this.setState({
+              financials: finDetail,
+            });
+            chooseDetail(e);
+          })
+          .catch((err) => {
+            console.error('error getting financial info', err);
+          });
+      }
+    };
+
+
+    const popNewsDetails = (e) => {
+      e.persist();
+      if (this.state.newsDetail === null) {
+        iexFactory.getNewsInfo(this.props.stockQuote.symbol)
+          .then((news) => {
+            this.setState({
+              newsDetail: news,
+            });
+            chooseDetail(e);
+          })
+          .catch((err) => {
+            console.error('error getting news info', err);
+          });
+      }
+    };
+    // ================= end conditional api call ========================
 
     // primary render is set as undefined. Must wait for parent to pass props before render
     if (this.props.stockQuote.change !== undefined) {
@@ -62,15 +139,13 @@ class DisplayDetailData extends React.Component {
             />
              {'  '}Company: {this.props.stockQuote.companyName}
           </p>
-          <p>Price: ${this.props.stockQuote.latestPrice}</p>
-          <p>% Daily Change: {percentifyer(this.props.stockQuote.changePercent)}</p>
-          <p>$ Daily Change: {numToDollars(this.props.stockQuote.change)}</p>
-          <p>Last Updated: {Date().toLocaleString(this.props.stockQuote.latestUpdate)}</p>
-          <p>Market Cap: {numToDollars(this.props.stockQuote.marketCap)}</p>
-          <p>PE Ratio: {this.props.stockQuote.peRatio}</p>
-          <p>52 Week High: {numToDollars(this.props.stockQuote.week52High)}</p>
-          <p>52 Week Low: {numToDollars(this.props.stockQuote.week52Low)}</p>
-          <p>Calculation Price: {this.props.stockQuote.calculationPrice}</p>
+          <div onClick={chooseDetail}>
+            <span className='detail-selector'>Stock Info</span>
+            <span className='detail-selector' onClick={popCompDetails}>Company Details</span>
+            <span className='detail-selector' onClick={popFinDetails}>Financial Info</span>
+            <span className='detail-selector' onClick={popNewsDetails}>Related News</span>
+          </div>
+          {this.state.selectedDetail}
         </div>
       );
     }
