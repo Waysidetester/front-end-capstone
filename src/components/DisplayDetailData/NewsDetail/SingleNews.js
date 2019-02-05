@@ -7,7 +7,7 @@ class SingleNews extends React.Component {
         <a href={this.props.articleInfo.url}>
           {this.props.articleInfo.headline}
         </a>
-        {this.props.articleInfo.summary !== 'No summary available.' ? `<div>${this.props.articleInfo.summary}</div>` : ''}
+        {this.props.articleInfo.summary !== 'No summary available.' ? `${this.props.articleInfo.summary}` : ''}
       </div>
     );
   }

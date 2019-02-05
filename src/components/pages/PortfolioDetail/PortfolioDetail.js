@@ -6,7 +6,6 @@ import './PortfolioDetail.scss';
 
 class PortfolioDetail extends React.Component {
   state = {
-    stockQuote: {},
     userQuote: {},
     isRemoved: false,
     logo: undefined,
