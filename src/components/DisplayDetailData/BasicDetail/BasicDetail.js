@@ -11,17 +11,25 @@ class BasicDetail extends React.Component {
     // converts raw numbers to currency
     const numToDollars = USD => USD.toLocaleString('en-us', { style: 'currency', currency: 'USD' });
 
+    if (this.props.stockQuote) {
+      return (
+        <div>
+          <p>Price: ${this.props.stockQuote.latestPrice}</p>
+          <p>% Daily Change: {percentifyer(this.props.stockQuote.changePercent)}</p>
+          <p>$ Daily Change: {numToDollars(this.props.stockQuote.change)}</p>
+          <p>Last Updated: {Date().toLocaleString(this.props.stockQuote.latestUpdate)}</p>
+          <p>Market Cap: {numToDollars(this.props.stockQuote.marketCap)}</p>
+          <p>PE Ratio: {this.props.stockQuote.peRatio}</p>
+          <p>52 Week High: {numToDollars(this.props.stockQuote.week52High)}</p>
+          <p>52 Week Low: {numToDollars(this.props.stockQuote.week52Low)}</p>
+          <p>Calculation Price: {this.props.stockQuote.calculationPrice}</p>
+        </div>
+      );
+    }
+
     return (
       <div>
-        <p>Price: ${this.props.stockQuote.latestPrice}</p>
-        <p>% Daily Change: {percentifyer(this.props.stockQuote.changePercent)}</p>
-        <p>$ Daily Change: {numToDollars(this.props.stockQuote.change)}</p>
-        <p>Last Updated: {Date().toLocaleString(this.props.stockQuote.latestUpdate)}</p>
-        <p>Market Cap: {numToDollars(this.props.stockQuote.marketCap)}</p>
-        <p>PE Ratio: {this.props.stockQuote.peRatio}</p>
-        <p>52 Week High: {numToDollars(this.props.stockQuote.week52High)}</p>
-        <p>52 Week Low: {numToDollars(this.props.stockQuote.week52Low)}</p>
-        <p>Calculation Price: {this.props.stockQuote.calculationPrice}</p>
+        Internal error. No stock detail to display.
       </div>
     );
   }
