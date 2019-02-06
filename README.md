@@ -17,6 +17,17 @@ I have always had an affinity for personal weath building. There are many compon
     * Rename the file `fbKeys.js`
 1. You will need to create a realtime database in Firebase and start in test mode ![init database](https://github.com/Waysidetester/firebase-Todo/blob/master/images/realtimeDatabase.PNG?raw=true)
 1. Import the `./planning/front-cap.json` file into the database for seed data. ![select import](https://github.com/Waysidetester/firebase-Todo/blob/master/images/import-option.PNG?raw=true) ![select import](https://github.com/Waysidetester/firebase-Todo/blob/master/images/import-json.PNG?raw=true) Under the "supported-symbol" key, import the corresponding json file
+1. Under the "Rules" tab in the database module, you'll see ```"rules": {
+    ".read": true,
+    ".write": true }```
+    
+    Add the following key: value pair to the rules. ```"active-collection": {
+      ".indexOn": "uid"
+    },
+    "watching": {
+      ".indexOn": "uid"
+    }``` This allows the database to process specific data that is integral for the app's functionality.
+
 
 1. run the following command in your terminal to initiate the app: ```npm start```
 This should automatically open a new tab in your default browser and run the web app, which pulls data from the Firebase app you have created.
