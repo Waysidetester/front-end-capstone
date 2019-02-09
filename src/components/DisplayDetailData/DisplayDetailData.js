@@ -131,7 +131,7 @@ class DisplayDetailData extends React.Component {
     if (this.props.stockQuote.change !== undefined) {
       return (
         <div className='detail-container'>
-          <p>
+          <p className='comp-logo-name'>
             <img
             src={this.props.logo}
             className='detail-logo'
@@ -139,12 +139,12 @@ class DisplayDetailData extends React.Component {
             />
              {'  '}Company: {this.props.stockQuote.companyName}
           </p>
-          <div onClick={chooseDetail}>
+          <h4 onClick={chooseDetail} className='detail-titles'>
             <span className='detail-selector'>Stock Info</span>
             <span className='detail-selector' onClick={popCompDetails}>Company Details</span>
             <span className='detail-selector' onClick={popFinDetails}>Financial Info</span>
             <span className='detail-selector' onClick={popNewsDetails}>Related News</span>
-          </div>
+          </h4>
           {this.state.selectedDetail}
         </div>
       );

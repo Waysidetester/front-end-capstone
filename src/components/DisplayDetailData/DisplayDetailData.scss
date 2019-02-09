@@ -10,9 +10,63 @@
 .detail-selector {
   padding-right: 5px;
   padding-left: 5px;
-  border-left: 1px solid rgb(77, 76, 76); 
+  border: 1px solid rgb(77, 76, 76);
+  cursor: pointer;
+  transition: background-color .25s ease;
+  background-color: rgba(0, 0, 0, 0);
+
+}
+
+.detail-selector:hover {
+  transition: background-color .5s ease;
+  background-color: rgb(255, 179, 92)
 }
 
 .detail-selector:first-of-type {
-  border-left: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.detail-selector:last-of-type {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.detail-sub-title {
+  font-weight: bold;
+}
+
+.detail-info-container {
+  margin-bottom: 9px;
+  padding: 5px;
+  border: 1px solid #000;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  flex-wrap: wrap;
+  p {
+    transition: font-size 0.5s ease;
+    font-size: inherit;
+    margin-right: 4px;
+    width: 30%;
+  }
+}
+
+.detail-info-container {
+  p:hover {
+    transition: font-size 1s ease;
+    font-size: 1.25rem;
+  }
+}
+
+.detail-titles {
+  display: flex;
+  justify-content: center;
+}
+
+.comp-logo-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
