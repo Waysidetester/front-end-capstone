@@ -1,4 +1,5 @@
 import React from 'react';
+import Charts from '../../Charts/Charts';
 import DisplayDetailData from '../../DisplayDetailData/DisplayDetailData';
 import iexFactory from '../../../helpers/Api/iexFactory';
 import fbMethods from '../../../helpers/firebase/fbMethods';
@@ -14,6 +15,18 @@ class PortfolioDetail extends React.Component {
   // Gets symbol from URL
   symbol = this.props.match.params.fbKey;
 
+  // chart data api call that sets data to state
+  chartGenerator = (chartTimeFrame) => {
+    iexFactory.chartValues(this.state.stockQuote.symbol, chartTimeFrame)
+      .then((chartValues) => {
+        this.setState({ chartData: chartValues });
+      });
+  }
+
+  // changes timeframe that api returns for chart data points
+  chartTimeFrameChanger = (e) => {
+    this.chartGenerator(e.currentTarget.innerHTML);
+  }
 
   // API call to populate data
   quoteGetter = () => {
@@ -25,6 +38,8 @@ class PortfolioDetail extends React.Component {
               stockQuote: data,
               logo: image.url,
             });
+            // creates initial chart from data returned
+            this.chartGenerator('1d');
           });
       })
       .catch((err) => {
@@ -92,25 +107,30 @@ class PortfolioDetail extends React.Component {
     if (this.state.stockQuote !== undefined) {
       return (
         <div>
-          <div>
-            <h1>My Position</h1>
-            <p>Starting Price: ${this.state.userQuote.originPrice}</p>
-            <p>
-             ROI: ${(
-              this.state.stockQuote.latestPrice - this.state.userQuote.originPrice
-            ).toFixed(2)}
-            {'  ' /* need to add space between $ and % */}
-              ({(
-              (
-                (this.state.stockQuote.latestPrice - this.state.userQuote.originPrice)
-                  / this.state.userQuote.originPrice)
-                  * 100).toFixed(2)}%)
-            </p>
+          <div className='active-position'>
+            <div>
+              <h1>My Position</h1>
+              <p>Starting Price: ${this.state.userQuote.originPrice}</p>
+              <p>
+              ROI: ${(
+                this.state.stockQuote.latestPrice - this.state.userQuote.originPrice
+              ).toFixed(2)}
+              {'  ' /* need to add space between $ and % */}
+                ({(
+                (
+                  (this.state.stockQuote.latestPrice - this.state.userQuote.originPrice)
+                    / this.state.userQuote.originPrice)
+                    * 100).toFixed(2)}%)
+              </p>
+            </div>
+            <button
+            className='btn btn-danger'
+            onClick={removeStatus}
+            >Remove Security</button>
           </div>
-          <button
-          className='btn btn-danger'
-          onClick={removeStatus}
-          >Remove Security</button>
+          <Charts
+          chartData={this.state.chartData}
+          chartTimeFrameChanger={this.chartTimeFrameChanger}/>
           <DisplayDetailData stockQuote={this.state.stockQuote} logo={this.state.logo}/>
         </div>
       );

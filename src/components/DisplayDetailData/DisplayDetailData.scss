@@ -46,7 +46,7 @@
   justify-content: baseline;
   flex-wrap: wrap;
   p {
-    transition: font-size 0.5s ease;
+    transition: font-size 0.25s ease;
     font-size: inherit;
     margin-right: 4px;
     width: 30%;
@@ -55,8 +55,8 @@
 
 .detail-info-container {
   p:hover {
-    transition: font-size 1s ease;
-    font-size: 1.25rem;
+    transition: font-size .5s ease;
+    font-size: 1.15rem;
   }
 }
 
