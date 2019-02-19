@@ -17,15 +17,29 @@ class CompanyDetail extends React.Component {
       return (
         <div>
           <h1>Company Detail</h1>
-          <p>CEO: {this.props.companyInfo.CEO}</p>
-          <p>Company Info: {this.props.companyInfo.description}</p>
-          <p>Industry: {this.props.companyInfo.industry}</p>
-          <p>Sector: {this.props.companyInfo.sector}</p>
-          <p>Website:{' '}
-            <a href={this.props.companyInfo.website}>
-              {this.props.companyInfo.website}
-            </a>
-          </p>
+          <div className='detail-info-container'>
+            <p>
+              <span className='detail-sub-title'>CEO: </span>
+              {this.props.companyInfo.CEO}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Company Info: </span>
+              {this.props.companyInfo.description}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Industry: </span>
+              {this.props.companyInfo.industry}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Sector: </span>
+              {this.props.companyInfo.sector}
+            </p>
+            <p><span className='detail-sub-title'>Website: </span>
+              <a href={this.props.companyInfo.website}>
+                {this.props.companyInfo.website}
+              </a>
+            </p>
+          </div>
         </div>
       );
     }

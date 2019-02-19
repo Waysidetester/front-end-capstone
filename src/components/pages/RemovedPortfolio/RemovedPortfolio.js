@@ -29,9 +29,11 @@ class RemovedPortfolio extends React.Component {
 
     console.log(this.state);
     return (
-      <div>
-        <h1>Removed Portfolio</h1>
-        {popList()}
+      <div className='col-12'>
+        <h1 className='tracking-title'>Removed Portfolio</h1>
+        <div className='saved-summary'>
+          {popList()}
+        </div>
       </div>
     );
   }

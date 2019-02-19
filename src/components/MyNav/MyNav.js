@@ -61,10 +61,10 @@ class MyNav extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem href='/portfolio'>
-                    Tracking
+                    Activly Tracking
                   </DropdownItem>
                   <DropdownItem href='/removed'>
-                    Completed
+                    Removed
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

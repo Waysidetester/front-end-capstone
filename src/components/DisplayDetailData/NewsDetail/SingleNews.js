@@ -1,13 +1,17 @@
 import React from 'react';
+import './SingleNews.scss';
 
 class SingleNews extends React.Component {
   render() {
     return (
-      <div>
-        <a href={this.props.articleInfo.url}>
+      <div className='news-link'>
+        <a
+        className='btn btn-outline-dark'
+        href={this.props.articleInfo.url}
+        target={'_blank'}>
           {this.props.articleInfo.headline}
+          <div className='text-info'> - {this.props.articleInfo.source}</div>
         </a>
-        {this.props.articleInfo.summary !== 'No summary available.' ? `${this.props.articleInfo.summary}` : ''}
       </div>
     );
   }

@@ -10,8 +10,10 @@ class NewsDetail extends React.Component {
     if (this.props.newsDetail) {
       return (
         <div>
-          <h3>News</h3>
-          {this.populateNews()}
+          <h3>Recent News</h3>
+          <div className='detail-info-container'>
+            {this.populateNews()}
+          </div>
         </div>
       );
     }

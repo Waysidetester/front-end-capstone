@@ -38,27 +38,86 @@ class FinancialDetail extends React.Component {
     if (this.props.financials) {
       return (
         <div>
-          <h2>Financial Detail</h2>
-          <h4>{this.props.financials.reportDate}</h4>
-          <p>Net Income: {numToDollars(this.props.financials.netIncome)}</p>
-          <p>Gross Profit: {numToDollars(this.props.financials.grossProfit)}</p>
-          <p>Total Revenue: {numToDollars(this.props.financials.totalRevenue)}</p>
-          <p>Operating Revenue: {numToDollars(this.props.financials.operatingRevenue)}</p>
-          <p>Operating Income: {numToDollars(this.props.financials.operatingIncome)}</p>
-          <p>Cost of Revenue: {numToDollars(this.props.financials.costOfRevenue)}</p>
-          <p>Total Assets: {numToDollars(this.props.financials.totalAssets)}</p>
-          <p>Current Assets: {numToDollars(this.props.financials.currentAssets)}</p>
-          <p>Total Cash: {numToDollars(this.props.financials.totalCash)}</p>
-          <p>Current Cash: {numToDollars(this.props.financials.currentCash)}</p>
-          <p>Cashflow: {numToDollars(this.props.financials.cashFlow)}</p>
-          <p>Change in Cashflow: {numToDollars(this.props.financials.cashChange)}</p>
-          <p>Total Debt: {numToDollars(this.props.financials.totalDebt)}</p>
-          <p>Current Debt: {numToDollars(this.props.financials.currentDebt)}</p>
-          <p>Total Liabilities: {numToDollars(this.props.financials.totalLiabilities)}</p>
-          <p>Operating Expense: {numToDollars(this.props.financials.operatingExpense)}</p>
-          <p>Operating Gain/Loss: {numToDollars(this.props.financials.operatingGainsLosses)}</p>
-          <p>{'R&D: '}{numToDollars(this.props.financials.researchAndDevelopment)}</p>
-          <p>Shareholder Equity: {numToDollars(this.props.financials.shareholderEquity)}</p>
+          <h2>Financial Info</h2>
+          <h4>Date of Report: {this.props.financials.reportDate}</h4>
+          <div className='detail-info-container'>
+            <p>
+              <span className='detail-sub-title'>Net Income: </span>
+              {numToDollars(this.props.financials.netIncome)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Gross Profit: </span>
+              {numToDollars(this.props.financials.grossProfit)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Total Revenue: </span>
+              {numToDollars(this.props.financials.totalRevenue)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Operating Revenue: </span>
+              {numToDollars(this.props.financials.operatingRevenue)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Operating Income: </span>
+              {numToDollars(this.props.financials.operatingIncome)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Cost of Revenue: </span>
+              {numToDollars(this.props.financials.costOfRevenue)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Total Assets: </span>
+              {numToDollars(this.props.financials.totalAssets)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Current Assets: </span>
+              {numToDollars(this.props.financials.currentAssets)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Total Cash: </span>
+              {numToDollars(this.props.financials.totalCash)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Current Cash: </span>
+              {numToDollars(this.props.financials.currentCash)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Cashflow: </span>
+              {numToDollars(this.props.financials.cashFlow)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Change in Cashflow: </span>
+              {numToDollars(this.props.financials.cashChange)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Total Debt: </span>
+              {numToDollars(this.props.financials.totalDebt)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Current Debt: </span>
+              {numToDollars(this.props.financials.currentDebt)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Total Liabilities: </span>
+              {numToDollars(this.props.financials.totalLiabilities)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Operating Expense: </span>
+              {numToDollars(this.props.financials.operatingExpense)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Operating Gain/Loss: </span>
+              {numToDollars(this.props.financials.operatingGainsLosses)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>{'R&D: '}</span>
+              {numToDollars(this.props.financials.researchAndDevelopment)}
+            </p>
+            <p>
+              <span className='detail-sub-title'>Shareholder Equity: </span>
+              {numToDollars(this.props.financials.shareholderEquity)}
+            </p>
+          </div>
         </div>
       );
     }

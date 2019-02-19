@@ -25,13 +25,13 @@ class Charts extends React.Component {
       <div>
         {/* ReCharts package http://recharts.org */}
         <LineChart
-        width={730}
-        height={250}
+        height={300}
+        width={document.getElementsByClassName('row')[0].offsetWidth}
         data={this.props.chartData}
         margin={{
           top: 5,
-          right: 30,
-          left: 20,
+          right: 5,
+          left: 0,
           bottom: 5,
         }}>
           <CartesianGrid />
@@ -42,14 +42,16 @@ class Charts extends React.Component {
         </LineChart>
 
         {/* buttons to select timeframe for stock chart */}
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1d</Button>
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1m</Button>
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>3m</Button>
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>6m</Button>
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>ytd</Button>
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1y</Button>
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>2y</Button>
-        <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>5y</Button>
+        <div className='chart-buttons'>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1d</Button>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1m</Button>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>3m</Button>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>6m</Button>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>ytd</Button>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>1y</Button>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>2y</Button>
+          <Button outline color='success' className='time-selector' onClick={this.props.chartTimeFrameChanger}>5y</Button>
+        </div>
       </div>
     );
   }

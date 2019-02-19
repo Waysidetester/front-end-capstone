@@ -96,21 +96,23 @@ class SavedStock extends React.Component {
 
     if (this.state.apiReturn) {
       return (
-        <div>
+        <div className='saved-card'>
           <Card>
             <CardHeader tag="h3">{this.state.apiReturn.companyName}</CardHeader>
             <CardBody>
               <CardTitle>{this.props.fbDetail.ticker}</CardTitle>
               <CardText>Current Position: {totalROI().toFixed(2)}</CardText>
               <CardText>Current Return: {percentROI().toFixed(2)}%</CardText>
-              <a
-              className='btn btn-secondary'
-              href={`portfolio/${this.props.fbDetail.id}`}
-              >Detail</a>
-              <Button
-              className='btn-danger'
-              onClick={removeStatus}
-              >Remove</Button>
+              <div className='sum-btn-container'>
+                <a
+                className='sum-card-btn btn btn-secondary'
+                href={`portfolio/${this.props.fbDetail.id}`}
+                >Detail</a>
+                <Button
+                className='sum-card-btn btn-danger'
+                onClick={removeStatus}
+                >Remove</Button>
+              </div>
             </CardBody>
             <CardFooter className="text-muted">Aquired {localeTimer()}</CardFooter>
           </Card>

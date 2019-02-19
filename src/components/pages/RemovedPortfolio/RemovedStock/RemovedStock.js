@@ -57,7 +57,7 @@ class RemovedStock extends React.Component {
 
     if (this.state.apiReturn) {
       return (
-        <div>
+        <div className='saved-card'>
           <Card>
             <CardHeader tag="h3">{this.state.apiReturn.companyName}</CardHeader>
             <CardBody>

@@ -99,7 +99,13 @@ class SaveModal extends React.Component {
     }
     return (
       <div>
-        <Button color="secondary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+        <Button
+        color="info"
+        onClick={this.toggle}
+        className='save-modal-toggler'
+        >
+          {this.props.buttonLabel}
+        </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>{this.props.companyName}</ModalHeader>
           <ModalBody>
