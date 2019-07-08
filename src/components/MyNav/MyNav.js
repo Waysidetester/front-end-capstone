@@ -13,6 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import fbMethods from '../../helpers/firebase/fbMethods';
 import WatchingNav from './WatchingNav/WatchingNav';
+import Warning from './Warning';
 import './MyNav.scss';
 
 class MyNav extends React.Component {
@@ -86,6 +87,7 @@ class MyNav extends React.Component {
                 </NavItem>
               </Nav>
           </Navbar>
+          <Warning />
         </div>
       );
     }
@@ -100,6 +102,7 @@ class MyNav extends React.Component {
               </NavItem>
             </Nav>
         </Navbar>
+        <Warning />
       </div>
     );
   }

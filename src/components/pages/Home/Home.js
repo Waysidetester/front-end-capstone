@@ -72,7 +72,7 @@ class Home extends React.Component {
       });
 
     return (
-      <Card body className="text-center mt-5">
+      <Card body className="text-center home-card">
       <CardTitle>
         <h1>Welcome to Renenutet</h1>
       </CardTitle>

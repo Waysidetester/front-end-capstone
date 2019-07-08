@@ -1,32 +1,33 @@
 import axios from 'axios';
+import key from './iexKeys';
 
 // View https://iextrading.com/developer/docs/ for API docs
-const baseUrl = 'https://api.iextrading.com/1.0';
+const baseUrl = 'https://sandbox.iexapis.com/v1/';
 
 // returns ticker for API ticker validation
 const symbolRequest = ticker => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/quote?filter=symbol`)
+  axios.get(`${baseUrl}/stock/${ticker}/quote?token=${key}&filter=symbol`)
     .then(res => resolve(res.data.symbol))
     .catch(err => reject(err));
 });
 
 // returns full quote from API
 const quoteRequest = ticker => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/quote`)
+  axios.get(`${baseUrl}/stock/${ticker}/quote?token=${key}`)
     .then(res => resolve(res.data))
     .catch(err => reject(err));
 });
 
 // returns company name and the latest price
 const savedStockInfo = ticker => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/quote?filter=companyName,latestPrice`)
+  axios.get(`${baseUrl}/stock/${ticker}/quote?token=${key}&filter=companyName,latestPrice`)
     .then(res => resolve(res.data))
     .catch(err => reject(err));
 });
 
 // returns chart values from API
 const chartValues = (ticker, timeFrame) => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/chart/${timeFrame}?filter=label,low`)
+  axios.get(`${baseUrl}/stock/${ticker}/chart/${timeFrame}?token=${key}&filter=label,low`)
     .then((res) => {
       const validLow = [];
       res.data.forEach((x) => {
@@ -42,25 +43,25 @@ const chartValues = (ticker, timeFrame) => new Promise((resolve, reject) => {
 
 // returns logo images from api database
 const getLogo = ticker => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/logo`)
+  axios.get(`${baseUrl}/stock/${ticker}/logo?token=${key}`)
     .then(res => resolve(res.data))
     .catch(err => reject(err));
 });
 
 const getFinancialDetail = ticker => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/financials`)
+  axios.get(`${baseUrl}/stock/${ticker}/financials?token=${key}`)
     .then(res => resolve(res.data.financials[0]))
     .catch(err => reject(err));
 });
 
 const getCompanyDetails = ticker => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/company`)
+  axios.get(`${baseUrl}/stock/${ticker}/company?token=${key}`)
     .then(res => resolve(res.data))
     .catch(err => reject(err));
 });
 
 const getNewsInfo = ticker => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/stock/${ticker}/news`)
+  axios.get(`${baseUrl}/stock/${ticker}/news?token=${key}`)
     .then(res => resolve(res.data))
     .catch(err => reject(err));
 });

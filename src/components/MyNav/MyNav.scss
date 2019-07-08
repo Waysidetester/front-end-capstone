@@ -2,3 +2,19 @@
   max-height: 236px;
   overflow-y: scroll;
 }
+
+.project-warning {
+  display: flex;
+  justify-content: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.warning-container {
+  width: 95%;
+  max-width: 100%
+}
+
+.highlight {
+  font-weight: bold;
+}
