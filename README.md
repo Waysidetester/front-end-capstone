@@ -1,5 +1,8 @@
 # Renenutet
 
+## UPDATE 7/8/2019
+The API utilized was depreciated. To enable the application to continue to work similarly to how it originally did, all market data is fabricated. If you'd like to have this work on your machine, go to [IEX Cloud](https://iexcloud.io/cloud-login#/register/), register for an account, create a file called `iexKeys.js` under front-end-capstone/src/helpers/Api, create a variable called `iexPublishableTestKey` and set it equal to either the public key provided by IEX or the public test key they provide. The standard public key will return true data. The test key only returns fabricated data.
+
 ## Purpose
 I have always had an affinity for personal weath building. There are many components and methods for building weath, and one of them is through business ownership. The simplest way to invest in a business is through stock ownership. This app utilizes the [IEX API](https://iextrading.com/developer/docs/) to get stock information from American exchanges and display the various stock info to users. 
 
